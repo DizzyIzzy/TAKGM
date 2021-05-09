@@ -55,4 +55,13 @@ public:
 
 	/** Called whenever this actor is being removed from a level */
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	UFUNCTION(BlueprintCallable, Category = "Time")
+		FString GetTime();
+
+	UFUNCTION(BlueprintCallable, Category = "Time")
+		FString GetStaleTime(float MinutesValid);
+	
+	UFUNCTION(BlueprintCallable, Category = "Time")
+		FString FormXML(FString Type, FString Uid, float MinutesValid, float Lat, float Lon, float Hae, FString Ce, FString Le);
 };
