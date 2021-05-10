@@ -14,6 +14,8 @@ AUDPSender::AUDPSender(const FObjectInitializer& ObjectInitializer)
 	SenderSocket = NULL;
 
 	ShowOnScreenDebugMessages = true;
+
+	MinutesValid = 10.0;
 }
 
 void AUDPSender::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -134,10 +136,11 @@ FString AUDPSender::GetTime()
 	return nowFormatted;
 }
 
-FString AUDPSender::GetStaleTime(float MinutesValid)
+FString AUDPSender::GetStaleTime()
 {
-	FTimespan addedMinutes;
-	addedMinutes.FromMinutes(MinutesValid);
+	// FromMinutes() takes a double, unreal BP does not support doubles
+	double mv = MinutesValid;
+	FTimespan addedMinutes = FTimespan::FromMinutes(mv);
 	FDateTime stale = FDateTime().UtcNow() + addedMinutes;
 
 	int32 day = stale.GetDay();
@@ -171,10 +174,10 @@ FString AUDPSender::GetStaleTime(float MinutesValid)
 	return staleFormatted;
 }
 
-FString AUDPSender::FormXML(FString Type, FString Uid, float MinutesValid, float Lat, float Lon, float Hae, FString Ce, FString Le) 
+FString AUDPSender::FormXML(FString Type, FString Uid, float Lat, float Lon, float Hae, FString Ce, FString Le) 
 {
 	FString Time = GetTime();
-	FString Stale = GetStaleTime(MinutesValid);
+	FString Stale = GetStaleTime();
 
 	//FString xml = FString(TEXT("<?xml version=\"1.0\"?>");
 	FString xml = FString(TEXT("<event version=\"2.0\" uid=\""));

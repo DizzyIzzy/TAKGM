@@ -20,6 +20,7 @@ class AUDPSender : public AActor
 public:
 	TSharedPtr<FInternetAddr>	RemoteAddr;
 	FSocket* SenderSocket;
+	double MinutesValid;
 
 	UFUNCTION(BlueprintCallable, Category = "UDP")
 	bool StartUDPSender(
@@ -60,8 +61,8 @@ public:
 		FString GetTime();
 
 	UFUNCTION(BlueprintCallable, Category = "Time")
-		FString GetStaleTime(float MinutesValid);
+		FString GetStaleTime();
 	
 	UFUNCTION(BlueprintCallable, Category = "Time")
-		FString FormXML(FString Type, FString Uid, float MinutesValid, float Lat, float Lon, float Hae, FString Ce, FString Le);
+		FString FormXML(FString Type, FString Uid, float Lat, float Lon, float Hae, FString Ce, FString Le);
 };
