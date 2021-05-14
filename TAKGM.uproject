@@ -3,6 +3,16 @@
 	"EngineAssociation": "4.26",
 	"Category": "",
 	"Description": "",
+	"Modules": [
+		{
+			"Name": "TAKGM",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
 	"Plugins": [
 		{
 			"Name": "VaRest",
