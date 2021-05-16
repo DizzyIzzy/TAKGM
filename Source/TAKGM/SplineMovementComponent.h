@@ -8,6 +8,9 @@
 #include "SplineMovementComponent.generated.h"
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWayPointDelegate, int32, GoalPoint);
+
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TAKGM_API USplineMovementComponent : public UActorComponent
 {
@@ -41,6 +44,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void ProceedToNextPoint();
 
+
+
+	UPROPERTY(BlueprintAssignable, Category = "Custom")
+		FWayPointDelegate ArrivedAtPoint;
 
 private:
 	TArray<FVector> Waypoints;
