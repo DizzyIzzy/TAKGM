@@ -38,6 +38,11 @@ void USplineMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 		GetOwner()->SetActorRotation(Rotation);
 		//SplineActor->GetSplineComponent()->GetDistanceAlongSplineAtSplinePoint();
 	}
+	else
+	{
+		ArrivedAtPoint.Broadcast(GoalPoint);
+		//ArrivedAtWayPoint(GoalPoint);
+	}
 	
 }
 
@@ -49,17 +54,20 @@ void USplineMovementComponent::Initialize(TArray<FVector> WayPoints)
 	SplineActor = GetWorld()->SpawnActor<ASplineActor>();
 	SplineActor->SetActorLocation(GetOwner()->GetActorLocation());
 
+	SplineActor->GetSplineComponent()->RemoveSplinePoint(0);
+
 	if (WayPoints.Num())
 	{
 		SplineActor->SetActorLocation(WayPoints[0]);
 	}
-	SplineActor->GetSplineComponent()->RemoveSplinePoint(0);
+	SplineActor->GetSplineComponent()->SetSplinePoints(WayPoints,ESplineCoordinateSpace::World);
 	for (int i = 0; i < Waypoints.Num();i++)
 	{
 		//FSplinePoint Point = FSplinePoint(i, Waypoints[i], FVector(0,0,0), FVector::ZeroVector);
 		//SplineActor->GetSplineComponent()->AddPoint(Point);
-		SplineActor->GetSplineComponent()->AddSplineWorldPoint(Waypoints[i]);
-		SplineActor->GetSplineComponent()->SetSplinePointType(i, ESplinePointType::CurveClamped);
+		//SplineActor->GetSplineComponent()->AddSplinePointAtIndex(Waypoints[i], i, ESplineCoordinateSpace::World, true);
+		//SplineActor->GetSplineComponent()->AddSplineWorldPoint(Waypoints[i]);
+		//SplineActor->GetSplineComponent()->SetSplinePointType(i, ESplinePointType::CurveClamped);
 	}
 }
 

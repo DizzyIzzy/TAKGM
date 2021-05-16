@@ -6,6 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "SplineActor.generated.h"
 
+
+
+
 UCLASS()
 class TAKGM_API ASplineActor : public AActor
 {
@@ -29,4 +32,5 @@ public:
 
 	/** Returns SplineComponent subobject **/
 	class USplineComponent* GetSplineComponent() const;
+
 };
