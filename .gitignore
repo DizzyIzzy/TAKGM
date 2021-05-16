@@ -21,6 +21,7 @@ Content/ThirdPerson
 # Precompiled Headers
 *.gch
 *.pch
+*.ipch
 
 # Compiled Dynamic libraries
 *.so
