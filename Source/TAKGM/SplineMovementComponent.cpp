@@ -41,7 +41,7 @@ void USplineMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	else
 	{
 		ArrivedAtPoint.Broadcast(GoalPoint);
-		//ArrivedAtWayPoint(GoalPoint);
+		this->SetComponentTickEnabled(false);
 	}
 	
 }
@@ -61,27 +61,20 @@ void USplineMovementComponent::Initialize(TArray<FVector> WayPoints)
 		SplineActor->SetActorLocation(WayPoints[0]);
 	}
 	SplineActor->GetSplineComponent()->SetSplinePoints(WayPoints,ESplineCoordinateSpace::World);
-	for (int i = 0; i < Waypoints.Num();i++)
-	{
-		//FSplinePoint Point = FSplinePoint(i, Waypoints[i], FVector(0,0,0), FVector::ZeroVector);
-		//SplineActor->GetSplineComponent()->AddPoint(Point);
-		//SplineActor->GetSplineComponent()->AddSplinePointAtIndex(Waypoints[i], i, ESplineCoordinateSpace::World, true);
-		//SplineActor->GetSplineComponent()->AddSplineWorldPoint(Waypoints[i]);
-		//SplineActor->GetSplineComponent()->SetSplinePointType(i, ESplinePointType::CurveClamped);
-	}
 }
 
 void USplineMovementComponent::TravelToWayPoint(int Point)
 {
 	GoalPoint = Point;
 	if (!SplineActor) return;
+	this->SetComponentTickEnabled(true);
 	GoalDistanceAlongSpline = SplineActor->GetSplineComponent()->GetDistanceAlongSplineAtSplinePoint(Point);
 }
 
 void USplineMovementComponent::ProceedToNextPoint()
 {
 	GoalPoint++;
-
+	this->SetComponentTickEnabled(true);
 	GoalDistanceAlongSpline = SplineActor->GetSplineComponent()->GetDistanceAlongSplineAtSplinePoint(GoalPoint);
 	//GoalDistanceAlongSpline
 }
