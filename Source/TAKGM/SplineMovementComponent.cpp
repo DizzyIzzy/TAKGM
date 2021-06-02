@@ -33,7 +33,7 @@ void USplineMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	{
 		CurrentDistanceAlongSpline += DistanceTraveled;
 		FVector Location = SplineActor->GetSplineComponent()->GetLocationAtDistanceAlongSpline(CurrentDistanceAlongSpline,ESplineCoordinateSpace::World);
-		FRotator Rotation = SplineActor->GetSplineComponent()->GetRotationAtDistanceAlongSpline(CurrentDistanceAlongSpline, ESplineCoordinateSpace::World);
+		FRotator Rotation = SplineActor->GetSplineComponent()->GetRotationAtDistanceAlongSpline(CurrentDistanceAlongSpline, ESplineCoordinateSpace::Local);
 		GetOwner()->SetActorLocation(Location);
 		GetOwner()->SetActorRotation(Rotation);
 		//SplineActor->GetSplineComponent()->GetDistanceAlongSplineAtSplinePoint();
