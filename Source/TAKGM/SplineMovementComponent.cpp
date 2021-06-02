@@ -79,3 +79,17 @@ void USplineMovementComponent::ProceedToNextPoint()
 	//GoalDistanceAlongSpline
 }
 
+float USplineMovementComponent::GetLengthAlongSpline()
+{
+	return CurrentDistanceAlongSpline;
+}
+
+float USplineMovementComponent::GetSplineLength()
+{
+	if (SplineActor && SplineActor->GetSplineComponent())
+	{
+		return SplineActor->GetSplineComponent()->GetSplineLength();
+	}
+	return 0.0f;
+}
+
