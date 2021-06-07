@@ -49,13 +49,6 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Custom")
 		FWayPointDelegate ArrivedAtPoint;
 
-	UFUNCTION(BlueprintPure)
-		float GetLengthAlongSpline();
-
-	UFUNCTION(BlueprintPure)
-		float GetSplineLength();
-
-
 private:
 	TArray<FVector> Waypoints;
 
