@@ -98,7 +98,7 @@ bool AUDPSender::UDPSender_SendString(FString ToSend)
 		return false;
 	}
 
-	ScreenMsg("UDP~ Send Succcess! Bytes Sent = ", BytesSent);
+	//ScreenMsg("UDP~ Send Succcess! Bytes Sent = ", BytesSent);
 
 	return true;
 }
@@ -143,8 +143,12 @@ void AUDPSender::BroadcastCot(bool PrintToScreen, bool PrintToLog)
 	TArray<AActor*> Actors;
 	UGameplayStatics::GetAllActorsWithInterface(GWorld, UCotSharable::StaticClass(), Actors);
 	for (AActor* Actor : Actors) {
+		ICotSharable* CotSharableActor = Cast<ICotSharable>(Actor);
+		if (CotSharableActor) {
+			ICotSharable::Execute_SetUDPSender(Actor, this);
+		}
 		FString CotXML = AUDPSender::FormCot(Actor);
-		
+
 		if (AUDPSender::UDPSender_SendString(AUDPSender::FormCot(Actor)))
 		{
 			if (GEngine && PrintToScreen)
@@ -164,16 +168,19 @@ void AUDPSender::BroadcastCot(bool PrintToScreen, bool PrintToLog)
 	}
 }
 
-FString AUDPSender::FormCot(UObject* CotEntity) 
+FString AUDPSender::FormCot(AActor* CotEntity)
 {
+	FVector longLatHeight = AUDPSender::transformActorLocationToRealCoord(CotEntity);
+	FString Stale = GetStaleTime();
 	return AUDPSender::FormXML(ICotSharable::Execute_GetType(CotEntity),
-		                       ICotSharable::Execute_GetUid(CotEntity),
-		                       ICotSharable::Execute_GetCallsign(CotEntity),
-		                       ICotSharable::Execute_GetLatitude(CotEntity),
-		                       ICotSharable::Execute_GetLongitude(CotEntity),
-		                       ICotSharable::Execute_GetHae(CotEntity),
-		                       ICotSharable::Execute_GetCe(CotEntity),
-		                       ICotSharable::Execute_GetLe(CotEntity));
+		ICotSharable::Execute_GetUid(CotEntity),
+		ICotSharable::Execute_GetCallsign(CotEntity),
+		Stale,
+		longLatHeight.Y,
+		longLatHeight.X,
+		longLatHeight.Z,
+		ICotSharable::Execute_GetCe(CotEntity),
+		ICotSharable::Execute_GetLe(CotEntity));
 }
 
 FString AUDPSender::GetStaleTime()
@@ -214,10 +221,9 @@ FString AUDPSender::GetStaleTime()
 	return staleFormatted;
 }
 
-FString AUDPSender::FormXML(FString Type, FString Uid, FString Callsign, float Lat, float Lon, float Hae, float Ce, float Le)
+FString AUDPSender::FormXML(FString Type, FString Uid, FString Callsign, FString Stale, float Lat, float Lon, float Hae, float Ce, float Le)
 {
 	FString Time = GetTime();
-	FString Stale = GetStaleTime();
 
 	//FString xml = FString(TEXT("<?xml version=\"1.0\"?>");
 	FString xml = FString(TEXT("<event version=\"2.0\" uid=\""));
@@ -244,4 +250,24 @@ FString AUDPSender::FormXML(FString Type, FString Uid, FString Callsign, float L
 	xml += FString::SanitizeFloat(Le);
 	xml += FString(TEXT("\" /></event>"));
 	return xml;
+}
+
+void AUDPSender::SetStaleToNow(AActor* CotEntity) {
+	if (!CotEntity) {
+		return;
+	}
+	FVector longLatHeight = AUDPSender::transformActorLocationToRealCoord(CotEntity);
+	FString stale = GetTime();
+	AUDPSender::UDPSender_SendString(
+		AUDPSender::FormXML(ICotSharable::Execute_GetType(CotEntity),
+			ICotSharable::Execute_GetUid(CotEntity),
+			ICotSharable::Execute_GetCallsign(CotEntity),
+			stale,
+			longLatHeight.Y,
+			longLatHeight.X,
+			longLatHeight.Z,
+			ICotSharable::Execute_GetCe(CotEntity),
+			ICotSharable::Execute_GetLe(CotEntity)
+		)
+	);
 }

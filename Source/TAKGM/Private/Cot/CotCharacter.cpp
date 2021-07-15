@@ -34,6 +34,12 @@ void ACotCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+/*
+void ACotCharacter::BeginDestroy()
+{
+	singletonUDPSender->SetStaleToNow(this);
+	Super::BeginDestroy();
+}*/
 
 // Called to bind functionality to input
 void ACotCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -82,6 +88,11 @@ float ACotCharacter::GetLe_Implementation()
 	return Le;
 }
 
+AUDPSender* ACotCharacter::GetUDPSender_Implementation()
+{
+	return singletonUDPSender;
+}
+
 void ACotCharacter::SetType_Implementation(FString& NewType)
 {
 	Type = NewType;
@@ -120,4 +131,9 @@ void ACotCharacter::SetCe_Implementation(float NewCe)
 void ACotCharacter::SetLe_Implementation(float NewLe)
 {
 	Le = NewLe;
+}
+
+void ACotCharacter::SetUDPSender_Implementation(AUDPSender* UdpSender)
+{
+	singletonUDPSender = UdpSender;
 }

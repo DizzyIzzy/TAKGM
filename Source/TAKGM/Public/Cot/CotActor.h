@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "GameFramework/Actor.h"
 #include "UDP/UDPSender.h"
 #include "CotSharable.h"
-#include "CotCharacter.generated.h"
+#include "CotActor.generated.h"
 
 UCLASS()
-class TAKGM_API ACotCharacter : public ACharacter, public ICotSharable
+class TAKGM_API ACotActor : public AActor, public ICotSharable
 {
 	GENERATED_BODY()
 
@@ -43,7 +43,7 @@ public:
 		AUDPSender* singletonUDPSender;
 
 	// Constructor
-	ACotCharacter();
+	ACotActor();
 
 protected:
 	// Called when the game starts or when spawned
@@ -54,9 +54,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// virtual void BeginDestroy();
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// Implements functions from ICotSharable
 	virtual FString GetType_Implementation() override;
