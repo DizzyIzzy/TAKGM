@@ -8,6 +8,7 @@
 #include "GameFramework/Actor.h"
 #include "UDPSender.generated.h"
 
+
 UCLASS()
 class AUDPSender : public AActor
 {
@@ -65,12 +66,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Cot")
 		void BroadcastCot(bool PrintToScreen, bool PrintToLog);
 
-	UFUNCTION(Category="Cot")
-		FString FormCot(UObject* CotEntity);
+	UFUNCTION(BlueprintImplementableEvent, Category = "Cot")
+		FVector transformActorLocationToRealCoord(AActor* actor);
+
+	UFUNCTION(Category = "Cot")
+		FString FormCot(AActor* CotEntity);
 
 	UFUNCTION(BlueprintCallable, Category = "Time")
 		FString GetStaleTime();
 
 	UFUNCTION(BlueprintCallable, Category = "Cot")
-		FString FormXML(FString Type, FString Uid, FString Callsign, float Lat, float Lon, float Hae, float Ce, float Le);
+		FString FormXML(FString Type, FString Uid, FString Callsign, FString Stale, float Lat, float Lon, float Hae, float Ce, float Le);
+
+	UFUNCTION(BlueprintCallable, Category = "Cot")
+		void SetStaleToNow(AActor* CotEntity);
 };
