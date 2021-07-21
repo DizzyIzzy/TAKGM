@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "GameFramework/Pawn.h"
 #include "UDP/UDPSender.h"
 #include "CotSharable.h"
-#include "CotCharacter.generated.h"
+#include "CotPawn.generated.h"
 
 UCLASS()
-class TAKGM_API ACotCharacter : public ACharacter, public ICotSharable
+class TAKGM_API ACotPawn : public APawn, public ICotSharable
 {
 	GENERATED_BODY()
 
@@ -43,7 +43,7 @@ public:
 		AUDPSender* singletonUDPSender;
 
 	// Constructor
-	ACotCharacter();
+	ACotPawn();
 
 protected:
 	// Called when the game starts or when spawned

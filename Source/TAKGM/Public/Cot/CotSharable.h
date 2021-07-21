@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "UDP/UDPSender.h"
 #include "CotSharable.generated.h"
-
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UCotSharable : public UInterface
@@ -46,6 +46,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
 		float GetLe();
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
+		AUDPSender* GetUDPSender();
+
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity", meta = (AdvancedDisplay = 1))
 		void SetType(UPARAM(ref, DisplayName = "Type") FString& NewType);
 
@@ -69,6 +72,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
 		void SetLe(UPARAM(DisplayName = "LE") float NewLe);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
+		void SetUDPSender(UPARAM(DisplayName = "UDP Sender Reference") AUDPSender* UdpSender);
 
 
 };
