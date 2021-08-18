@@ -60,6 +60,7 @@ bool AUDPReceiver::StartUDPReceiver(
 void AUDPReceiver::Recv(const FArrayReaderPtr& ArrayReaderPtr, const FIPv4Endpoint& EndPt)
 {
 	FString Data = FString(UTF8_TO_TCHAR(ArrayReaderPtr->GetData()));
+	parseIncomingCot(Data);
 	UE_LOG(LogTemp, Log, TEXT("****UDP**** Data received: %s"), *Data);
 }
 
