@@ -54,4 +54,7 @@ public:
 
 	/** Called whenever this actor is being removed from a level */
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Cot")
+		void parseIncomingCot(const FString& message);
 };
