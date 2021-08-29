@@ -11,8 +11,8 @@ ACotActor::ACotActor()
 
 	// TODO: Generate unique Uid, remove hard-coded PLI
 	Type = FString(TEXT("a-x-G"));
-	Uid = FString(TEXT("TAKBOT"));
-	Callsign = FString(TEXT("Survivor"));
+	Uid = this->GetUid_Implementation();
+	Callsign = this->GetCallsign_Implementation();
 	Latitude = 29.557232f;
 	Longitude = -81.204465f;
 	Hae = 10.0f;
@@ -50,12 +50,12 @@ FString ACotActor::GetType_Implementation()
 
 FString ACotActor::GetUid_Implementation()
 {
-	return Uid;
+	return UKismetSystemLibrary::GetObjectName(this);
 }
 
 FString ACotActor::GetCallsign_Implementation()
 {
-	return Callsign;
+	return UKismetSystemLibrary::GetObjectName(this);
 }
 
 float ACotActor::GetLatitude_Implementation()
