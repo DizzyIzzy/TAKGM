@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "GameFramework/Character.h"
 #include "UDP/UDPSender.h"
 #include "CotSharable.h"
