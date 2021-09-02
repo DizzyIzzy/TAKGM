@@ -11,8 +11,8 @@ ACotPawn::ACotPawn()
 
 	// TODO: Generate unique Uid, remove hard-coded PLI
 	Type = FString(TEXT("a-x-G"));
-	Uid = FString(TEXT("TAKBOT"));
-	Callsign = FString(TEXT("Survivor"));
+	Uid = this->GetUid_Implementation();
+	Callsign = this->GetCallsign_Implementation();
 	Latitude = 29.557232f;
 	Longitude = -81.204465f;
 	Hae = 10.0f;
@@ -55,12 +55,12 @@ FString ACotPawn::GetType_Implementation()
 
 FString ACotPawn::GetUid_Implementation()
 {
-	return Uid;
+	return UKismetSystemLibrary::GetObjectName(this);
 }
 
 FString ACotPawn::GetCallsign_Implementation()
 {
-	return Callsign;
+	return UKismetSystemLibrary::GetObjectName(this);
 }
 
 float ACotPawn::GetLatitude_Implementation()

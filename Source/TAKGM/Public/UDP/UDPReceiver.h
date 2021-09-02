@@ -6,6 +6,7 @@
 #include "Networking.h"
 #include "GameFramework/Actor.h"
 #include "Containers/UnrealString.h"
+#include "Async/TaskGraphInterfaces.h"
 #include "UDPReceiver.generated.h"
 
 UCLASS()
@@ -19,8 +20,10 @@ public:
 	/** Data has been received!! */
 	UFUNCTION(BlueprintImplementableEvent)
 		void BPEvent_DataReceived(const FString& ReceivedData);
-
 	//====================================================
+
+	UPROPERTY(EditDefaultsOnly, Category="Cot")
+		TSubclassOf<AActor> StandInActorClass;
 
 public:
 	FSocket* ListenSocket;
@@ -54,4 +57,7 @@ public:
 
 	/** Called whenever this actor is being removed from a level */
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Cot")
+		void parseIncomingCot(const FString& message);
 };
