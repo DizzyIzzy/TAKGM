@@ -18,6 +18,10 @@ ACotActor::ACotActor()
 	Hae = 10.0f;
 	Ce = 1.0f;
 	Le = 0.0f;
+	isStale = false;
+
+	singletonUDPSender = (AUDPSender *) UGameplayStatics::GetActorOfClass(GetWorld(),
+		AUDPSender::StaticClass());
 
 }
 
@@ -28,20 +32,20 @@ void ACotActor::BeginPlay()
 
 }
 
+void ACotActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (singletonUDPSender && EndPlayReason == EEndPlayReason::Type::Destroyed) {
+		singletonUDPSender->SetStaleToNow(ICotSharable::Execute_GetType(this), ICotSharable::Execute_GetUid(this), ICotSharable::Execute_GetCallsign(this), this->GetActorLocation());
+	}
+	Super::EndPlay(EndPlayReason);
+}
+
 // Called every frame
 void ACotActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
-/*
-void ACotActor::BeginDestroy()
-{
-	if (singletonUDPSender) {
-		singletonUDPSender->SetStaleToNow(this);
-	}
-	Super::BeginDestroy();
-}*/
 
 FString ACotActor::GetType_Implementation()
 {
@@ -76,6 +80,11 @@ float ACotActor::GetHae_Implementation()
 float ACotActor::GetCe_Implementation()
 {
 	return Ce;
+}
+
+bool ACotActor::GetIsStale_Implementation()
+{
+	return isStale;
 }
 
 float ACotActor::GetLe_Implementation()

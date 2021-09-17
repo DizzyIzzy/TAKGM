@@ -7,6 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "UDP/UDPSender.h"
 #include "CotSharable.h"
+#include <Runtime\Engine\Classes\Kismet\GameplayStatics.h>
 #include "CotPawn.generated.h"
 
 UCLASS()
@@ -41,6 +42,9 @@ public:
 		float Le;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
+		bool isStale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
 		AUDPSender* singletonUDPSender;
 
 	// Constructor
@@ -49,6 +53,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
 	// Called every frame
@@ -75,6 +81,8 @@ public:
 	virtual float GetCe_Implementation() override;
 
 	virtual float GetLe_Implementation() override;
+
+	virtual bool GetIsStale_Implementation() override;
 
 	virtual AUDPSender* GetUDPSender_Implementation() override;
 
