@@ -47,6 +47,9 @@ public:
 		float GetLe();
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
+		bool GetIsStale();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
 		AUDPSender* GetUDPSender();
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity", meta = (AdvancedDisplay = 1))

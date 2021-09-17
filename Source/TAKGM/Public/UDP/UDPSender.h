@@ -16,14 +16,13 @@ class AUDPSender : public AActor
 
 		bool IsUDP;
 
-
-	UFUNCTION(BlueprintCallable, Category = "UDP")
-		bool UDPSender_SendString(FString ToSend);
-
 public:
 	TSharedPtr<FInternetAddr>	RemoteAddr;
 	FSocket* SenderSocket;
 	double MinutesValid;
+
+	UFUNCTION(BlueprintCallable, Category = "UDP")
+		bool UDPSender_SendString(FString ToSend);
 
 	UFUNCTION(BlueprintCallable, Category = "UDP")
 		bool StartUDPSender(
@@ -69,6 +68,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Cot")
 		FVector transformActorLocationToRealCoord(AActor* actor);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Cot")
+		FVector transformUECoordToRealCoord(FVector unrealCoord);
+
 	UFUNCTION(Category = "Cot")
 		FString FormCot(AActor* CotEntity);
 
@@ -79,5 +81,5 @@ public:
 		FString FormXML(FString Type, FString Uid, FString Callsign, FString Stale, float Lat, float Lon, float Hae, float Ce, float Le);
 
 	UFUNCTION(BlueprintCallable, Category = "Cot")
-		void SetStaleToNow(AActor* CotEntity);
+		void SetStaleToNow(FString Type, FString Uid, FString Callsign, FVector UnrealCoordinates);
 };

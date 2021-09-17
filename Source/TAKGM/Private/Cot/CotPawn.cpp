@@ -18,7 +18,10 @@ ACotPawn::ACotPawn()
 	Hae = 10.0f;
 	Ce = 1.0f;
 	Le = 0.0f;
+	isStale = false;
 
+	singletonUDPSender = (AUDPSender*)UGameplayStatics::GetActorOfClass(GetWorld(),
+		AUDPSender::StaticClass());
 }
 
 // Called when the game starts or when spawned
@@ -27,18 +30,20 @@ void ACotPawn::BeginPlay()
 	Super::BeginPlay();
 
 }
-/*
-void ACotPawn::BeginDestroy()
-{
-	singletonUDPSender->SetStaleToNow(this);
-	Super::BeginDestroy();
-}
-*/
+
 // Called every frame
 void ACotPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ACotPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (singletonUDPSender && EndPlayReason == EEndPlayReason::Type::Destroyed) {
+		singletonUDPSender->SetStaleToNow(ICotSharable::Execute_GetType(this), ICotSharable::Execute_GetUid(this), ICotSharable::Execute_GetCallsign(this), this->GetActorLocation());
+	}
+	Super::EndPlay(EndPlayReason);
 }
 
 // Called to bind functionality to input
@@ -81,6 +86,11 @@ float ACotPawn::GetHae_Implementation()
 float ACotPawn::GetCe_Implementation()
 {
 	return Ce;
+}
+
+bool ACotPawn::GetIsStale_Implementation()
+{
+	return isStale;
 }
 
 float ACotPawn::GetLe_Implementation()

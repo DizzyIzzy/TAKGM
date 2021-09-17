@@ -144,12 +144,14 @@ void AUDPSender::BroadcastCot(bool PrintToScreen, bool PrintToLog)
 	UGameplayStatics::GetAllActorsWithInterface(GWorld, UCotSharable::StaticClass(), Actors);
 	for (AActor* Actor : Actors) {
 		ICotSharable* CotSharableActor = Cast<ICotSharable>(Actor);
-		if (CotSharableActor) {
-			ICotSharable::Execute_SetUDPSender(Actor, this);
+		
+		if (ICotSharable::Execute_GetIsStale(Actor)) {
+			continue;
 		}
+
 		FString CotXML = AUDPSender::FormCot(Actor);
 
-		if (AUDPSender::UDPSender_SendString(AUDPSender::FormCot(Actor)))
+		if (AUDPSender::UDPSender_SendString(CotXML))
 		{
 			if (GEngine && PrintToScreen)
 				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, (TEXT("Sent Cot: %s"), *CotXML));
@@ -163,7 +165,7 @@ void AUDPSender::BroadcastCot(bool PrintToScreen, bool PrintToLog)
 				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, (TEXT("Failed to send Cot: %s"), *CotXML));
 
 			if (PrintToLog)
-				UE_LOG(LogTemp, Warning, TEXT("Sent Cot: %s"), *CotXML);
+				UE_LOG(LogTemp, Warning, TEXT("Failed to send Cot: %s"), *CotXML);
 		}
 	}
 }
@@ -252,22 +254,17 @@ FString AUDPSender::FormXML(FString Type, FString Uid, FString Callsign, FString
 	return xml;
 }
 
-void AUDPSender::SetStaleToNow(AActor* CotEntity) {
-	if (!CotEntity) {
-		return;
-	}
-	FVector longLatHeight = AUDPSender::transformActorLocationToRealCoord(CotEntity);
-	FString stale = GetTime();
-	AUDPSender::UDPSender_SendString(
-		AUDPSender::FormXML(ICotSharable::Execute_GetType(CotEntity),
-			ICotSharable::Execute_GetUid(CotEntity),
-			ICotSharable::Execute_GetCallsign(CotEntity),
-			stale,
-			longLatHeight.Y,
-			longLatHeight.X,
-			longLatHeight.Z,
-			ICotSharable::Execute_GetCe(CotEntity),
-			ICotSharable::Execute_GetLe(CotEntity)
-		)
+void AUDPSender::SetStaleToNow(FString Type, FString Uid, FString Callsign, FVector UnrealCoordinates) {
+	FVector longLatHeight = AUDPSender::transformUECoordToRealCoord(UnrealCoordinates);
+	FString xml = this->FormXML(Type,
+		Uid,
+		Callsign,
+		GetTime(),
+		longLatHeight.Y,
+		longLatHeight.X,
+		longLatHeight.Z,
+		10.0f,
+		10.0f
 	);
+	this->UDPSender_SendString(xml);
 }

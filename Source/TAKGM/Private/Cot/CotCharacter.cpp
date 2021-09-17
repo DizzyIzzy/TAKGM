@@ -17,8 +17,11 @@ ACotCharacter::ACotCharacter()
 	Longitude = -81.204465f;
 	Hae = 10.0f;
 	Ce = 1.0f;
-	Le = 0.0f;
+	Le = 0.0f; 
+	isStale = false;
 
+	singletonUDPSender = (AUDPSender*)UGameplayStatics::GetActorOfClass(GetWorld(),
+		AUDPSender::StaticClass());
 }
 
 // Called when the game starts or when spawned
@@ -34,12 +37,14 @@ void ACotCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-/*
-void ACotCharacter::BeginDestroy()
+
+void ACotCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	singletonUDPSender->SetStaleToNow(this);
-	Super::BeginDestroy();
-}*/
+	if (singletonUDPSender && EndPlayReason == EEndPlayReason::Type::Destroyed) {
+		singletonUDPSender->SetStaleToNow(ICotSharable::Execute_GetType(this), ICotSharable::Execute_GetUid(this), ICotSharable::Execute_GetCallsign(this), this->GetActorLocation());
+	}
+	Super::EndPlay(EndPlayReason);
+}
 
 // Called to bind functionality to input
 void ACotCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -82,6 +87,12 @@ float ACotCharacter::GetCe_Implementation()
 {
 	return Ce;
 }
+
+bool ACotCharacter::GetIsStale_Implementation()
+{
+	return isStale;
+}
+
 
 float ACotCharacter::GetLe_Implementation()
 {
