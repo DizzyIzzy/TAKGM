@@ -52,6 +52,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
 		AUDPSender* GetUDPSender();
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
+		bool GetShouldSendCoT();
+
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity", meta = (AdvancedDisplay = 1))
 		void SetType(UPARAM(ref, DisplayName = "Type") FString& NewType);
 
@@ -79,5 +82,6 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
 		void SetUDPSender(UPARAM(DisplayName = "UDP Sender Reference") AUDPSender* UdpSender);
 
-
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
+		void SetShouldSendCoT(UPARAM(DisplayName = "Should Send CoT") bool shouldSendCoT);
 };

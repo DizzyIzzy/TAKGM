@@ -47,6 +47,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
 		AUDPSender* singletonUDPSender;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
+		bool ShouldSendCoT;
 	// Constructor
 	ACotCharacter();
 
@@ -84,6 +86,8 @@ public:
 
 	virtual AUDPSender* GetUDPSender_Implementation() override;
 
+	virtual bool GetShouldSendCoT_Implementation() override;
+
 	virtual void SetType_Implementation(FString& NewType) override;
 
 	virtual void SetUid_Implementation(FString& NewUid) override;
@@ -101,4 +105,6 @@ public:
 	virtual void SetLe_Implementation(float NewLe) override;
 
 	virtual void SetUDPSender_Implementation(AUDPSender* UdpSender) override;
+
+	virtual void SetShouldSendCoT_Implementation(bool NewShouldSendCoT) override;
 };

@@ -19,6 +19,7 @@ ACotPawn::ACotPawn()
 	Ce = 1.0f;
 	Le = 0.0f;
 	isStale = false;
+	ShouldSendCoT = true;
 
 	singletonUDPSender = (AUDPSender*)UGameplayStatics::GetActorOfClass(GetWorld(),
 		AUDPSender::StaticClass());
@@ -103,6 +104,11 @@ AUDPSender* ACotPawn::GetUDPSender_Implementation()
 	return singletonUDPSender;
 }
 
+bool ACotPawn::GetShouldSendCoT_Implementation()
+{
+	return ShouldSendCoT;
+}
+
 void ACotPawn::SetType_Implementation(FString& NewType)
 {
 	Type = NewType;
@@ -146,4 +152,9 @@ void ACotPawn::SetLe_Implementation(float NewLe)
 void ACotPawn::SetUDPSender_Implementation(AUDPSender* UdpSender)
 {
 	singletonUDPSender = UdpSender;
+}
+
+void ACotPawn::SetShouldSendCoT_Implementation(bool NewShouldSendCoT)
+{
+	ShouldSendCoT = NewShouldSendCoT;
 }

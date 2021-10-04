@@ -47,6 +47,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
 		bool isStale;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
+		bool ShouldSendCoT;
+
 	// Constructor
 	ACotActor();
 
@@ -81,6 +84,8 @@ public:
 
 	virtual bool GetIsStale_Implementation() override;
 
+	virtual bool GetShouldSendCoT_Implementation() override;
+
 	virtual AUDPSender* GetUDPSender_Implementation() override;
 
 	virtual void SetType_Implementation(FString& NewType) override;
@@ -100,4 +105,6 @@ public:
 	virtual void SetLe_Implementation(float NewLe) override;
 
 	virtual void SetUDPSender_Implementation(AUDPSender* UdpSender) override;
+
+	virtual void SetShouldSendCoT_Implementation(bool NewShouldSendCoT) override;
 };
