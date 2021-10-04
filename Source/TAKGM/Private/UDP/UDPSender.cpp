@@ -145,7 +145,7 @@ void AUDPSender::BroadcastCot(bool PrintToScreen, bool PrintToLog)
 	for (AActor* Actor : Actors) {
 		ICotSharable* CotSharableActor = Cast<ICotSharable>(Actor);
 		
-		if (ICotSharable::Execute_GetIsStale(Actor)) {
+		if (ICotSharable::Execute_GetIsStale(Actor) || ICotSharable::Execute_GetShouldSendCoT(Actor)) {
 			continue;
 		}
 
