@@ -5,10 +5,12 @@
 #include "CoreMinimal.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "GameFramework/Pawn.h"
-#include "UDP/UDPSender.h"
 #include "CotSharable.h"
 #include <Runtime\Engine\Classes\Kismet\GameplayStatics.h>
 #include "CotPawn.generated.h"
+
+// Forward class declaration to avoid circular dependency -> included in .cpp file
+class AUDPSender;
 
 UCLASS()
 class TAKGM_API ACotPawn : public APawn, public ICotSharable
@@ -49,6 +51,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
 		bool ShouldSendCoT;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
+		ECotAffiliation Affiliation;
 
 	// Constructor
 	ACotPawn();
@@ -91,6 +96,8 @@ public:
 
 	virtual bool GetShouldSendCoT_Implementation() override;
 
+	virtual ECotAffiliation GetAffiliation_Implementation() override;
+
 	virtual void SetType_Implementation(FString& NewType) override;
 
 	virtual void SetUid_Implementation(FString& NewUid) override;
@@ -110,4 +117,6 @@ public:
 	virtual void SetUDPSender_Implementation(AUDPSender* UdpSender) override;
 
 	virtual void SetShouldSendCoT_Implementation(bool NewShouldSendCoT) override;
+
+	virtual void SetAffiliation_Implementation(ECotAffiliation affiliation) override;
 };
