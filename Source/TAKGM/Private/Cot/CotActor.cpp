@@ -3,6 +3,9 @@
 
 #include "Cot/CotActor.h"
 
+// Forward declaration in header file -> include here
+#include "UDP/UDPSender.h"
+
 // Sets default values
 ACotActor::ACotActor()
 {
@@ -20,6 +23,7 @@ ACotActor::ACotActor()
 	Le = 0.0f;
 	isStale = false;
 	ShouldSendCoT = true;
+	Affiliation = ECotAffiliation::AFFIL_Hostile;
 
 	singletonUDPSender = (AUDPSender *) UGameplayStatics::GetActorOfClass(GetWorld(),
 		AUDPSender::StaticClass());
@@ -36,7 +40,7 @@ void ACotActor::BeginPlay()
 void ACotActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	if (singletonUDPSender && EndPlayReason == EEndPlayReason::Type::Destroyed) {
-		singletonUDPSender->SetStaleToNow(ICotSharable::Execute_GetType(this), ICotSharable::Execute_GetUid(this), ICotSharable::Execute_GetCallsign(this), this->GetActorLocation());
+		singletonUDPSender->SetStaleToNow(AUDPSender::FormTypeString(this), ICotSharable::Execute_GetUid(this), ICotSharable::Execute_GetCallsign(this), this->GetActorLocation());
 	}
 	Super::EndPlay(EndPlayReason);
 }
@@ -103,6 +107,11 @@ bool ACotActor::GetShouldSendCoT_Implementation()
 	return ShouldSendCoT;
 }
 
+ECotAffiliation ACotActor::GetAffiliation_Implementation()
+{
+	return Affiliation;
+}
+
 void ACotActor::SetType_Implementation(FString& NewType)
 {
 	Type = NewType;
@@ -151,4 +160,9 @@ void ACotActor::SetUDPSender_Implementation(AUDPSender* UdpSender)
 void ACotActor::SetShouldSendCoT_Implementation(bool NewShouldSendCoT)
 {
 	ShouldSendCoT = NewShouldSendCoT;
+}
+
+void ACotActor::SetAffiliation_Implementation(ECotAffiliation affiliation)
+{
+	Affiliation = affiliation;
 }

@@ -4,9 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "UDP/UDPSender.h"
 #include "CotSharable.generated.h"
-// This class does not need to be modified.
+
+UENUM(BlueprintType)
+enum class ECotAffiliation : uint8
+{
+	AFFIL_Friendly     UMETA(DisplayName = "Friendly"),
+	AFFIL_Hostile      UMETA(DisplayName = "Hostile"),
+	AFFIL_Neutral   UMETA(DisplayName = "Neutral"),
+	AFFIL_Other		UMETA(DisplayName = "Other"),
+};
+
 UINTERFACE(MinimalAPI)
 class UCotSharable : public UInterface
 {
@@ -55,6 +63,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
 		bool GetShouldSendCoT();
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
+		ECotAffiliation GetAffiliation();
+
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity", meta = (AdvancedDisplay = 1))
 		void SetType(UPARAM(ref, DisplayName = "Type") FString& NewType);
 
@@ -84,4 +95,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
 		void SetShouldSendCoT(UPARAM(DisplayName = "Should Send CoT") bool shouldSendCoT);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
+		void SetAffiliation(UPARAM(DisplayName = "Affiliation (friend/hostile/neutral)") ECotAffiliation affiliation);
 };
