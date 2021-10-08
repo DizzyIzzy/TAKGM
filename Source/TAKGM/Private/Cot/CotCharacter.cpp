@@ -111,8 +111,6 @@ AUDPSender* ACotCharacter::GetUDPSender_Implementation()
 
 bool ACotCharacter::GetShouldSendCoT_Implementation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Functions Was Called!"));
-
 	return ShouldSendCoT;
 }
 
