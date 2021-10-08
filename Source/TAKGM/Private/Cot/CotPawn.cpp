@@ -165,6 +165,7 @@ void ACotPawn::SetUDPSender_Implementation(AUDPSender* UdpSender)
 
 void ACotPawn::SetShouldSendCoT_Implementation(bool NewShouldSendCoT)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Functions Was Called!"));
 	ShouldSendCoT = NewShouldSendCoT;
 }
 

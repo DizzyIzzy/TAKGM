@@ -140,6 +140,7 @@ FString AUDPSender::GetTime()
 
 void AUDPSender::BroadcastCot(bool PrintToScreen, bool PrintToLog)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Function Was Called!!!"));
 	TArray<AActor*> Actors;
 	UGameplayStatics::GetAllActorsWithInterface(GWorld, UCotSharable::StaticClass(), Actors);
 	for (AActor* Actor : Actors) {
