@@ -140,13 +140,13 @@ FString AUDPSender::GetTime()
 
 void AUDPSender::BroadcastCot(bool PrintToScreen, bool PrintToLog)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Function Was Called!!!"));
+	UE_LOG(LogTemp, Warning, TEXT("Broadcasting CoT!!!"));
 	TArray<AActor*> Actors;
 	UGameplayStatics::GetAllActorsWithInterface(GWorld, UCotSharable::StaticClass(), Actors);
 	for (AActor* Actor : Actors) {
 		ICotSharable* CotSharableActor = Cast<ICotSharable>(Actor);
 		
-		if (ICotSharable::Execute_GetIsStale(Actor) || ICotSharable::Execute_GetShouldSendCoT(Actor)) {
+		if (ICotSharable::Execute_GetIsStale(Actor) || !ICotSharable::Execute_GetShouldSendCoT(Actor)) {
 			continue;
 		}
 
