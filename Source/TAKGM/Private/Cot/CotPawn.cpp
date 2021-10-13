@@ -3,6 +3,9 @@
 
 #include "Cot/CotPawn.h"
 
+// Forward declaration in header file -> include here
+#include "UDP/UDPSender.h" 
+
 // Sets default values
 ACotPawn::ACotPawn()
 {
@@ -19,6 +22,8 @@ ACotPawn::ACotPawn()
 	Ce = 1.0f;
 	Le = 0.0f;
 	isStale = false;
+	ShouldSendCoT = true;
+	Affiliation = ECotAffiliation::AFFIL_Hostile;
 
 	singletonUDPSender = (AUDPSender*)UGameplayStatics::GetActorOfClass(GetWorld(),
 		AUDPSender::StaticClass());
@@ -41,7 +46,7 @@ void ACotPawn::Tick(float DeltaTime)
 void ACotPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	if (singletonUDPSender && EndPlayReason == EEndPlayReason::Type::Destroyed) {
-		singletonUDPSender->SetStaleToNow(ICotSharable::Execute_GetType(this), ICotSharable::Execute_GetUid(this), ICotSharable::Execute_GetCallsign(this), this->GetActorLocation());
+		singletonUDPSender->SetStaleToNow(AUDPSender::FormTypeString(this), ICotSharable::Execute_GetUid(this), ICotSharable::Execute_GetCallsign(this), this->GetActorLocation());
 	}
 	Super::EndPlay(EndPlayReason);
 }
@@ -103,6 +108,16 @@ AUDPSender* ACotPawn::GetUDPSender_Implementation()
 	return singletonUDPSender;
 }
 
+bool ACotPawn::GetShouldSendCoT_Implementation()
+{
+	return ShouldSendCoT;
+}
+
+ECotAffiliation ACotPawn::GetAffiliation_Implementation()
+{
+	return Affiliation;
+}
+
 void ACotPawn::SetType_Implementation(FString& NewType)
 {
 	Type = NewType;
@@ -146,4 +161,14 @@ void ACotPawn::SetLe_Implementation(float NewLe)
 void ACotPawn::SetUDPSender_Implementation(AUDPSender* UdpSender)
 {
 	singletonUDPSender = UdpSender;
+}
+
+void ACotPawn::SetShouldSendCoT_Implementation(bool NewShouldSendCoT)
+{
+	ShouldSendCoT = NewShouldSendCoT;
+}
+
+void ACotPawn::SetAffiliation_Implementation(ECotAffiliation affiliation)
+{
+	Affiliation = affiliation;
 }

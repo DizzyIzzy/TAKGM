@@ -5,10 +5,12 @@
 #include "CoreMinimal.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "GameFramework/Character.h"
-#include "UDP/UDPSender.h"
 #include "CotSharable.h"
 #include <Runtime\Engine\Classes\Kismet\GameplayStatics.h>
 #include "CotCharacter.generated.h"
+
+// Forward class declaration to avoid circular dependency -> included in .cpp file
+class AUDPSender;
 
 UCLASS()
 class TAKGM_API ACotCharacter : public ACharacter, public ICotSharable
@@ -47,6 +49,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
 		AUDPSender* singletonUDPSender;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
+		bool ShouldSendCoT;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
+		ECotAffiliation Affiliation;
+
 	// Constructor
 	ACotCharacter();
 
@@ -84,6 +92,10 @@ public:
 
 	virtual AUDPSender* GetUDPSender_Implementation() override;
 
+	virtual bool GetShouldSendCoT_Implementation() override;
+
+	virtual ECotAffiliation GetAffiliation_Implementation() override;
+
 	virtual void SetType_Implementation(FString& NewType) override;
 
 	virtual void SetUid_Implementation(FString& NewUid) override;
@@ -101,4 +113,8 @@ public:
 	virtual void SetLe_Implementation(float NewLe) override;
 
 	virtual void SetUDPSender_Implementation(AUDPSender* UdpSender) override;
+
+	virtual void SetShouldSendCoT_Implementation(bool NewShouldSendCoT) override;
+
+	virtual void SetAffiliation_Implementation(ECotAffiliation affiliation) override;
 };

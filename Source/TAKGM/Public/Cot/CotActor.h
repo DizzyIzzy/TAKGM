@@ -5,10 +5,12 @@
 #include "CoreMinimal.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "GameFramework/Actor.h"
-#include "UDP/UDPSender.h"
 #include "CotSharable.h"
 #include <Runtime\Engine\Classes\Kismet\GameplayStatics.h>
 #include "CotActor.generated.h"
+
+// Forward class declaration to avoid circular dependency -> included in .cpp file
+class AUDPSender;
 
 UCLASS()
 class TAKGM_API ACotActor : public AActor, public ICotSharable
@@ -47,6 +49,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
 		bool isStale;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
+		bool ShouldSendCoT;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
+		ECotAffiliation Affiliation;
+
 	// Constructor
 	ACotActor();
 
@@ -81,7 +89,11 @@ public:
 
 	virtual bool GetIsStale_Implementation() override;
 
+	virtual bool GetShouldSendCoT_Implementation() override;
+
 	virtual AUDPSender* GetUDPSender_Implementation() override;
+
+	virtual ECotAffiliation GetAffiliation_Implementation() override;
 
 	virtual void SetType_Implementation(FString& NewType) override;
 
@@ -100,4 +112,8 @@ public:
 	virtual void SetLe_Implementation(float NewLe) override;
 
 	virtual void SetUDPSender_Implementation(AUDPSender* UdpSender) override;
+
+	virtual void SetShouldSendCoT_Implementation(bool NewShouldSendCoT) override;
+
+	virtual void SetAffiliation_Implementation(ECotAffiliation affiliation) override;
 };

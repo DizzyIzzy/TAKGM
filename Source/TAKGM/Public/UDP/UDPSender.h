@@ -5,9 +5,13 @@
 
 //Base
 #include "CoreMinimal.h"
+#include "Cot/CotSharable.h"
 #include "GameFramework/Actor.h"
 #include "UDPSender.generated.h"
 
+class ACotActor;
+class ACotPawn;
+class ACotCharacter;
 
 UCLASS()
 class AUDPSender : public AActor
@@ -82,4 +86,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Cot")
 		void SetStaleToNow(FString Type, FString Uid, FString Callsign, FVector UnrealCoordinates);
+
+	UFUNCTION(Category = "Cot")
+		static FString FormTypeString(AActor* CotEntity);
 };

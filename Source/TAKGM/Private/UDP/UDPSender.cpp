@@ -140,12 +140,13 @@ FString AUDPSender::GetTime()
 
 void AUDPSender::BroadcastCot(bool PrintToScreen, bool PrintToLog)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Broadcasting CoT!!!"));
 	TArray<AActor*> Actors;
 	UGameplayStatics::GetAllActorsWithInterface(GWorld, UCotSharable::StaticClass(), Actors);
 	for (AActor* Actor : Actors) {
 		ICotSharable* CotSharableActor = Cast<ICotSharable>(Actor);
 		
-		if (ICotSharable::Execute_GetIsStale(Actor)) {
+		if (ICotSharable::Execute_GetIsStale(Actor) || !ICotSharable::Execute_GetShouldSendCoT(Actor)) {
 			continue;
 		}
 
@@ -174,7 +175,7 @@ FString AUDPSender::FormCot(AActor* CotEntity)
 {
 	FVector longLatHeight = AUDPSender::transformActorLocationToRealCoord(CotEntity);
 	FString Stale = GetStaleTime();
-	return AUDPSender::FormXML(ICotSharable::Execute_GetType(CotEntity),
+	return AUDPSender::FormXML(AUDPSender::FormTypeString(CotEntity),
 		ICotSharable::Execute_GetUid(CotEntity),
 		ICotSharable::Execute_GetCallsign(CotEntity),
 		Stale,
@@ -183,6 +184,27 @@ FString AUDPSender::FormCot(AActor* CotEntity)
 		longLatHeight.Z,
 		ICotSharable::Execute_GetCe(CotEntity),
 		ICotSharable::Execute_GetLe(CotEntity));
+}
+
+FString AUDPSender::FormTypeString(AActor* CotEntity) {
+	FString affiliation;
+
+	switch (ICotSharable::Execute_GetAffiliation(CotEntity)) {
+		case ECotAffiliation::AFFIL_Friendly:
+			affiliation = FString("f-");
+			break;
+		case ECotAffiliation::AFFIL_Neutral:
+			affiliation = FString("n-");
+			break;
+		case ECotAffiliation::AFFIL_Other:
+			affiliation = FString("x-");
+			break;
+		case ECotAffiliation::AFFIL_Hostile:
+		default:
+			affiliation = FString("h-");
+			break;
+	}
+	return FString("a-") + affiliation + ICotSharable::Execute_GetType(CotEntity);
 }
 
 FString AUDPSender::GetStaleTime()
