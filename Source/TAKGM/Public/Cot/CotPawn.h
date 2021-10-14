@@ -29,21 +29,6 @@ public:
 		FString Callsign;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
-		float Latitude;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
-		float Longitude;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
-		float Hae;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
-		float Ce;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
-		float Le;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
 		bool isStale;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cot Sharable")
@@ -86,10 +71,6 @@ public:
 
 	virtual float GetHae_Implementation() override;
 
-	virtual float GetCe_Implementation() override;
-
-	virtual float GetLe_Implementation() override;
-
 	virtual bool GetIsStale_Implementation() override;
 
 	virtual AUDPSender* GetUDPSender_Implementation() override;
@@ -103,16 +84,6 @@ public:
 	virtual void SetUid_Implementation(FString& NewUid) override;
 
 	virtual void SetCallsign_Implementation(FString& NewCallsign) override;
-
-	virtual void SetLatitude_Implementation(float NewLatitude) override;
-
-	virtual void SetLongitude_Implementation(float NewLongitude) override;
-
-	virtual void SetHae_Implementation(float NewHae) override;
-
-	virtual void SetCe_Implementation(float NewCe) override;
-
-	virtual void SetLe_Implementation(float NewLe) override;
 
 	virtual void SetUDPSender_Implementation(AUDPSender* UdpSender) override;
 

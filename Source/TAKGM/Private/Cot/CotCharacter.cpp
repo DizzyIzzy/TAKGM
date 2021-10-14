@@ -16,11 +16,6 @@ ACotCharacter::ACotCharacter()
 	Type = FString(TEXT("a-x-G"));
 	Uid = this->GetUid_Implementation();
 	Callsign = this->GetCallsign_Implementation();
-	Latitude = 29.557232f;
-	Longitude = -81.204465f;
-	Hae = 10.0f;
-	Ce = 1.0f;
-	Le = 0.0f; 
 	isStale = false;
 	ShouldSendCoT = true;
 	Affiliation = ECotAffiliation::AFFIL_Hostile;
@@ -75,33 +70,25 @@ FString ACotCharacter::GetCallsign_Implementation()
 
 float ACotCharacter::GetLatitude_Implementation()
 {
-	return Latitude;
+	FVector longLatHeight = singletonUDPSender->transformUECoordToRealCoord(this->GetActorLocation());
+	return longLatHeight.Y;
 }
 
 float ACotCharacter::GetLongitude_Implementation()
 {
-	return Longitude;
+	FVector longLatHeight = singletonUDPSender->transformUECoordToRealCoord(this->GetActorLocation());
+	return longLatHeight.X;
 }
 
 float ACotCharacter::GetHae_Implementation()
 {
-	return Hae;
-}
-
-float ACotCharacter::GetCe_Implementation()
-{
-	return Ce;
+	FVector longLatHeight = singletonUDPSender->transformUECoordToRealCoord(this->GetActorLocation());
+	return longLatHeight.Z;
 }
 
 bool ACotCharacter::GetIsStale_Implementation()
 {
 	return isStale;
-}
-
-
-float ACotCharacter::GetLe_Implementation()
-{
-	return Le;
 }
 
 AUDPSender* ACotCharacter::GetUDPSender_Implementation()
@@ -132,31 +119,6 @@ void ACotCharacter::SetUid_Implementation(FString& NewUid)
 void ACotCharacter::SetCallsign_Implementation(FString& NewCallsign)
 {
 	Callsign = NewCallsign;
-}
-
-void ACotCharacter::SetLatitude_Implementation(float NewLatitude)
-{
-	Latitude = NewLatitude;
-}
-
-void ACotCharacter::SetLongitude_Implementation(float NewLongitude)
-{
-	Longitude = NewLongitude;
-}
-
-void ACotCharacter::SetHae_Implementation(float NewHae)
-{
-	Hae = NewHae;
-}
-
-void ACotCharacter::SetCe_Implementation(float NewCe)
-{
-	Ce = NewCe;
-}
-
-void ACotCharacter::SetLe_Implementation(float NewLe)
-{
-	Le = NewLe;
 }
 
 void ACotCharacter::SetUDPSender_Implementation(AUDPSender* UdpSender)
