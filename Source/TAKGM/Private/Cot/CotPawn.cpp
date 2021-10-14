@@ -16,11 +16,6 @@ ACotPawn::ACotPawn()
 	Type = FString(TEXT("a-x-G"));
 	Uid = this->GetUid_Implementation();
 	Callsign = this->GetCallsign_Implementation();
-	Latitude = 29.557232f;
-	Longitude = -81.204465f;
-	Hae = 10.0f;
-	Ce = 1.0f;
-	Le = 0.0f;
 	isStale = false;
 	ShouldSendCoT = true;
 	Affiliation = ECotAffiliation::AFFIL_Hostile;
@@ -75,32 +70,25 @@ FString ACotPawn::GetCallsign_Implementation()
 
 float ACotPawn::GetLatitude_Implementation()
 {
-	return Latitude;
+	FVector longLatHeight = singletonUDPSender->transformUECoordToRealCoord(this->GetActorLocation());
+	return longLatHeight.Y;
 }
 
 float ACotPawn::GetLongitude_Implementation()
 {
-	return Longitude;
+	FVector longLatHeight = singletonUDPSender->transformUECoordToRealCoord(this->GetActorLocation());
+	return longLatHeight.X;
 }
 
 float ACotPawn::GetHae_Implementation()
 {
-	return Hae;
-}
-
-float ACotPawn::GetCe_Implementation()
-{
-	return Ce;
+	FVector longLatHeight = singletonUDPSender->transformUECoordToRealCoord(this->GetActorLocation());
+	return longLatHeight.Z;
 }
 
 bool ACotPawn::GetIsStale_Implementation()
 {
 	return isStale;
-}
-
-float ACotPawn::GetLe_Implementation()
-{
-	return Le;
 }
 
 AUDPSender* ACotPawn::GetUDPSender_Implementation()
@@ -131,31 +119,6 @@ void ACotPawn::SetUid_Implementation(FString& NewUid)
 void ACotPawn::SetCallsign_Implementation(FString& NewCallsign)
 {
 	Callsign = NewCallsign;
-}
-
-void ACotPawn::SetLatitude_Implementation(float NewLatitude)
-{
-	Latitude = NewLatitude;
-}
-
-void ACotPawn::SetLongitude_Implementation(float NewLongitude)
-{
-	Longitude = NewLongitude;
-}
-
-void ACotPawn::SetHae_Implementation(float NewHae)
-{
-	Hae = NewHae;
-}
-
-void ACotPawn::SetCe_Implementation(float NewCe)
-{
-	Ce = NewCe;
-}
-
-void ACotPawn::SetLe_Implementation(float NewLe)
-{
-	Le = NewLe;
 }
 
 void ACotPawn::SetUDPSender_Implementation(AUDPSender* UdpSender)

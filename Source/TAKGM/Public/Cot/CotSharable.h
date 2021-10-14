@@ -49,12 +49,6 @@ public:
 		float GetHae();
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
-		float GetCe();
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
-		float GetLe();
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
 		bool GetIsStale();
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
@@ -74,21 +68,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
 		void SetCallsign(UPARAM(ref, DisplayName = "Callsign") FString& NewCallsign);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
-		void SetLatitude(UPARAM(DisplayName = "Latitude") float NewLatitude);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
-		void SetLongitude(UPARAM(DisplayName = "Longitude") float NewLongitude);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
-		void SetHae(UPARAM(DisplayName = "HAE (Height Above Ellipsoid") float NewHae);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
-		void SetCe(UPARAM(DisplayName = "CE") float NewCe);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
-		void SetLe(UPARAM(DisplayName = "LE") float NewLe);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Cot Entity")
 		void SetUDPSender(UPARAM(DisplayName = "UDP Sender Reference") AUDPSender* UdpSender);

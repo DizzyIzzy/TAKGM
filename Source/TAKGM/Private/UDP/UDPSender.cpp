@@ -55,17 +55,10 @@ bool AUDPSender::StartUDPSender(
 		.WithBroadcast()
 		;
 
-
-	//check(SenderSocket->GetSocketType() == SOCKTYPE_Datagram);
-
 	//Set Send Buffer Size
 	int32 SendSize = 2 * 1024 * 1024;
 	SenderSocket->SetSendBufferSize(SendSize, SendSize);
 	SenderSocket->SetReceiveBufferSize(SendSize, SendSize);
-
-	UE_LOG(LogTemp, Log, TEXT("\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"));
-	UE_LOG(LogTemp, Log, TEXT("****UDP**** Sender Initialized Successfully!!!"));
-	UE_LOG(LogTemp, Log, TEXT("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"));
 
 	return true;
 }
@@ -140,7 +133,6 @@ FString AUDPSender::GetTime()
 
 void AUDPSender::BroadcastCot(bool PrintToScreen, bool PrintToLog)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Broadcasting CoT!!!"));
 	TArray<AActor*> Actors;
 	UGameplayStatics::GetAllActorsWithInterface(GWorld, UCotSharable::StaticClass(), Actors);
 	for (AActor* Actor : Actors) {
@@ -182,8 +174,8 @@ FString AUDPSender::FormCot(AActor* CotEntity)
 		longLatHeight.Y,
 		longLatHeight.X,
 		longLatHeight.Z,
-		ICotSharable::Execute_GetCe(CotEntity),
-		ICotSharable::Execute_GetLe(CotEntity));
+		10.0f,
+		10.0f);
 }
 
 FString AUDPSender::FormTypeString(AActor* CotEntity) {
