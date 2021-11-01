@@ -81,6 +81,10 @@ bool AUDPSender::UDPSender_SendString(FString ToSend)
 
 	Writer << NewData;
 
+	if (SenderSocket->GetConnectionState() != ESocketConnectionState::SCS_Connected) {
+		return false;
+	}
+
 	SenderSocket->SendTo(Writer.GetData() + 4, Writer.Num() - 5, BytesSent, *RemoteAddr);
 
 	if (BytesSent <= 0)
@@ -136,8 +140,16 @@ void AUDPSender::BroadcastCot(bool PrintToScreen, bool PrintToLog)
 	TArray<AActor*> Actors;
 	UGameplayStatics::GetAllActorsWithInterface(GWorld, UCotSharable::StaticClass(), Actors);
 	for (AActor* Actor : Actors) {
+		if (!IsValid(Actor)) {
+			continue;
+		}
+
 		ICotSharable* CotSharableActor = Cast<ICotSharable>(Actor);
 		
+		if (CotSharableActor == nullptr) {
+			continue;
+		}
+
 		if (ICotSharable::Execute_GetIsStale(Actor) || !ICotSharable::Execute_GetShouldSendCoT(Actor)) {
 			continue;
 		}
