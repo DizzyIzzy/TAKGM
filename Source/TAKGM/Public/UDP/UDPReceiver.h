@@ -7,6 +7,8 @@
 #include "GameFramework/Actor.h"
 #include "Containers/UnrealString.h"
 #include "Async/TaskGraphInterfaces.h"
+#include "UDP/UDPSender.h"
+#include <Runtime\Engine\Classes\Kismet\GameplayStatics.h>
 #include "UDPReceiver.generated.h"
 
 UCLASS()
@@ -16,6 +18,7 @@ class AUDPReceiver : public AActor
 
 		//====================================================
 		//		Data Received Events!
+
 public:
 	/** Data has been received!! */
 	UFUNCTION(BlueprintImplementableEvent)
@@ -28,6 +31,7 @@ public:
 public:
 	FSocket* ListenSocket;
 
+	AUDPSender* singletonUdpSender;
 	FUdpSocketReceiver* UDPReceiver = nullptr;
 	void Recv(const FArrayReaderPtr& ArrayReaderPtr, const FIPv4Endpoint& EndPt);
 

@@ -95,7 +95,33 @@ bool AUDPSender::UDPSender_SendString(FString ToSend)
 		return false;
 	}
 
-	//ScreenMsg("UDP~ Send Succcess! Bytes Sent = ", BytesSent);
+	return true;
+}
+
+bool AUDPSender::RelayIncomingMessage(const FArrayReaderPtr &ToSend)
+{
+	if (!SenderSocket)
+	{
+		ScreenMsg("No sender socket");
+		return false;
+	}
+	//~~~~~~~~~~~~~~~~
+
+	int32 BytesSent = 0;
+
+	if (SenderSocket->GetConnectionState() != ESocketConnectionState::SCS_Connected) {
+		return false;
+	}
+	UE_LOG(LogTemp, Log, TEXT("RELAYING COT!"));
+	SenderSocket->SendTo(ToSend->GetData(), ToSend->Num(), BytesSent, *RemoteAddr);
+
+	if (BytesSent <= 0)
+	{
+		const FString Str = "FAILED TO RELAY COT: Socket is valid but the receiver received 0 bytes!";
+		UE_LOG(LogTemp, Error, TEXT("%s"), *Str);
+		ScreenMsg(Str);
+		return false;
+	}
 
 	return true;
 }

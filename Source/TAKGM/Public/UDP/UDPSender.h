@@ -63,6 +63,8 @@ public:
 	/** Called whenever this actor is being removed from a level */
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	bool RelayIncomingMessage(const FArrayReaderPtr& ToSend);
+
 	UFUNCTION(BlueprintCallable, Category = "Time")
 		FString GetTime();
 
