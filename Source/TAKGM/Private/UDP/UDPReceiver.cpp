@@ -33,6 +33,7 @@ bool AUDPReceiver::StartUDPReceiver(
 ) {
 
 	//ScreenMsg("RECEIVER INIT");
+	singletonUdpSender = (AUDPSender*)UGameplayStatics::GetActorOfClass(GetWorld(), AUDPSender::StaticClass());
 
 	FIPv4Address Addr;
 	FIPv4Address::Parse(TheIP, Addr);
@@ -59,10 +60,20 @@ bool AUDPReceiver::StartUDPReceiver(
 
 void AUDPReceiver::Recv(const FArrayReaderPtr& ArrayReaderPtr, const FIPv4Endpoint& EndPt)
 {
+	// Relay the CoT Message
+	if (!singletonUdpSender) {
+		UE_LOG(LogTemp, Log, TEXT("DID NOT RELAY COT: singletonUdpSender in BP_UDPReceiver is null!"));
+	}
+	else {
+		singletonUdpSender->RelayIncomingMessage(ArrayReaderPtr);
+	}
+
+
 	FString Data = FString(UTF8_TO_TCHAR(ArrayReaderPtr->GetData()));
 
 	FGraphEventRef Task = FFunctionGraphTask::CreateAndDispatchWhenReady([this, Data]()
 	{
+
 		parseIncomingCot(Data);
 	}, TStatId(), NULL, ENamedThreads::GameThread);
 	UE_LOG(LogTemp, Log, TEXT("****UDP**** Data received: %s"), *Data);
