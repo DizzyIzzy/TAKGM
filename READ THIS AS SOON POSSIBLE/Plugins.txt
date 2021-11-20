@@ -1,0 +1,1 @@
+Delete the Cesium folder inside of the Plugins folder from root if there is one present. It causes crashes.
