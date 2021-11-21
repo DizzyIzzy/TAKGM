@@ -1,0 +1,2 @@
+if you want video pushing to begin for standin actors after a real player connects from a TAK product, you will need to click on the standin in the world outliner
+and rename them using their property inspector first and then the video feed will start to update based on their movement.
