@@ -1,0 +1,5 @@
+Delete the Cesium folder inside of the Plugins folder from root if there is one present. It causes crashes.
+
+Also make sure cesium plugin is updated from Epic Games. Also causes crashes.
+
+Right click uproject file and "generate visual studio project files"
